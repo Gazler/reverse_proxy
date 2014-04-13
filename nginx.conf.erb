@@ -29,10 +29,25 @@ http {
 		server <%= ENV['DANFINNIECOM_1_PORT_4000_TCP_ADDR'] %>:<%= ENV['DANFINNIECOM_1_PORT_4000_TCP_PORT'] %>;
 	}
 
+	upstream cdd {
+		server <%= ENV['CDD_1_PORT_3000_TCP_ADDR'] %>:<%= ENV['CDD_1_PORT_3000_TCP_PORT'] %>;
+	}
+
 	server {
 		listen 80;
+		server_name 'localhost';
+		
 		location / {
 			proxy_pass http://danfinniecom;
+		}
+	}
+
+	server {
+		listen 80;
+		server_name 'cdd.localhost';
+		
+		location / {
+			proxy_pass http://cdd;
 		}
 	}
 }
