@@ -12,7 +12,7 @@ class AppProxy
   end
 
   def server_name
-    "#@ip.localhost"
+    "#@ip.#{hostname}"
   end
 
   def proxy_pass
@@ -27,6 +27,10 @@ class AppProxy
 
   def prefix
     "#{@ip.upcase}_1_PORT_#{@port}_TCP_"
+  end
+
+  def hostname
+    ENV['PROXIED_HOSTNAME']
   end
 end
 

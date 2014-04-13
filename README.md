@@ -23,12 +23,13 @@ reverseproxy:
   ports:
     - "80:80"
   environment:
+    PROXIED_HOSTNAME: 'example.com'
     APP_PROXIES: 
       - [app1, 4000] # app1 exposes port 4000
       - [app2, 3000] # app2 exposes port 3000
 ```
 
-Now, run `fig up` to build all of the Docker containers and start the servers.  If our server was running at example.com, then app1.example.com is proxied to an app1 Docker container on port 3000 and app2.example.com to an app2 Docker container on port 4000.
+Now, run `fig up` to build all of the Docker containers and start the servers.  Now, app1.example.com is proxied to an app1 Docker container on port 3000 and app2.example.com to an app2 Docker container on port 4000.  The `PROXIED_HOSTNAME` variable should be set to the output of the `hostname` command, it needs to be injected from the fig.yml file because the image does not know the hostname of it's parent.
 
 Whichever container is defined first in the `APP_PROXIES` variable is the default, so if you want something at your root domain, just list it first.
 
