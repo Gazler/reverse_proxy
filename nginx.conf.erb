@@ -25,30 +25,15 @@ http {
 
 	include /etc/nginx/conf.d/*.conf;
 
-	upstream danfinniecom {
-		server <%= ENV['DANFINNIECOM_1_PORT_4000_TCP_ADDR'] %>:<%= ENV['DANFINNIECOM_1_PORT_4000_TCP_PORT'] %>;
-	}
-
-	upstream cdd {
-		server <%= ENV['CDD_1_PORT_3000_TCP_ADDR'] %>:<%= ENV['CDD_1_PORT_3000_TCP_PORT'] %>;
-	}
-
-	server {
-		listen 80;
-		server_name 'localhost';
-		
-		location / {
-			proxy_pass http://danfinniecom;
+	<% app_proxies.each do |app_proxy| %>
+		server {
+			listen 80;
+			server_name '<%= app_proxy[0] %>.localhost';
+			
+			location / {
+				proxy_pass http://<%= ENV["#{app_proxy[0].upcase}_1_PORT_#{app_proxy[1]}_TCP_ADDR"] %>:<%= ENV["#{app_proxy[0].upcase}_1_PORT_#{app_proxy[1]}_TCP_PORT"] %>;
+			}
 		}
-	}
-
-	server {
-		listen 80;
-		server_name 'cdd.localhost';
-		
-		location / {
-			proxy_pass http://cdd;
-		}
-	}
+	<% end %>
 }
 
