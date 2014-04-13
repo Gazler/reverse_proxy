@@ -23,4 +23,3 @@ ADD go.rb /etc/nginx/go.rb
 EXPOSE 80
 
 ENTRYPOINT '/etc/nginx/go.rb'
-ENTRYPOINT '/bin/bash'

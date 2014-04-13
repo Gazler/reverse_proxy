@@ -24,4 +24,16 @@ http {
 	gzip_disable "msie6";
 
 	include /etc/nginx/conf.d/*.conf;
+
+	upstream danfinniecom {
+		server <%= ENV['DANFINNIECOM_1_PORT_4000_TCP_ADDR'] %>:<%= ENV['DANFINNIECOM_1_PORT_4000_TCP_PORT'] %>;
+	}
+
+	server {
+		listen 80;
+		location / {
+			proxy_pass http://danfinniecom;
+		}
+	}
 }
+
