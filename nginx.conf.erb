@@ -28,10 +28,10 @@ http {
 	<% app_proxies.each do |app_proxy| %>
 		server {
 			listen 80;
-			server_name '<%= app_proxy[0] %>.localhost';
+			server_name '<%= app_proxy.server_name %>';
 			
 			location / {
-				proxy_pass http://<%= ENV["#{app_proxy[0].upcase}_1_PORT_#{app_proxy[1]}_TCP_ADDR"] %>:<%= ENV["#{app_proxy[0].upcase}_1_PORT_#{app_proxy[1]}_TCP_PORT"] %>;
+				proxy_pass <%= app_proxy.proxy_pass %>;
 			}
 		}
 	<% end %>
